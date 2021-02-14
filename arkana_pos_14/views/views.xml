@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+        <template id="assets_inherit" inherit_id="point_of_sale.assets">
+            <xpath expr="//script[@src='/point_of_sale/static/src/js/Chrome.js']" position="replace">
+                <script type="text/javascript" src="/arkana_pos_14/static/src/js/Chrome.js"></script>
+            </xpath>
+        </template>
+
+    <record id="inherit_view_id_inherit_pos_config_view_form" model="ir.ui.view">
+      <field name="name">pos.config.view.form.inherit</field>
+      <field name="model">pos.config</field>
+      <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//div[@class='oe_title']" position="after">
+          <group>
+            <field name="image" widget="image" string="Logo"></field>
+          </group>
+          
+        </xpath>
+        
+      </field>
+    </record>
+
+
+
+
+  </data>
+</odoo>
