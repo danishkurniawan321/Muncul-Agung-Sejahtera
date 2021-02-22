@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "arkana_pos_14",
+    'name': "Arknana POS 13",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as

@@ -5,7 +5,7 @@
         <xpath expr="//img[@class='pos-logo']" position="replace">
 
                 <img class="pos-logo" t-on-click="trigger('toggle-debug-widget')"
-                t-att-src="'/web/image?model=pos.config&amp;id='+config_id+'&amp;field=image'" />
+                t-att-src="'/web/image?model=pos.config&amp;id='+widget.config_id+'&amp;field=image'" />
         </xpath>
     </t>
 

@@ -1,8 +1,11 @@
 <odoo>
   <data>
         <template id="assets_inherit" inherit_id="point_of_sale.assets">
-            <xpath expr="//script[@src='/point_of_sale/static/src/js/Chrome.js']" position="replace">
-                <script type="text/javascript" src="/arkana_pos_14/static/src/js/Chrome.js"></script>
+            <xpath expr="//script[@src='/point_of_sale/static/src/js/chrome.js']" position="replace">
+                <script type="text/javascript" src="/arkana_pos_13/static/src/js/Chrome.js"></script>
+            </xpath>
+            <xpath expr="//script[@src='/point_of_sale/static/src/js/models.js']" position="replace">
+                <script type="text/javascript" src="/arkana_pos_13/static/src/js/models.js"></script>
             </xpath>
         </template>
 
