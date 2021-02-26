@@ -594,7 +594,7 @@ odoo.define('point_of_sale.chrome', function (require) {
             this.logo_click_count = 0;
     
             this.previous_touch_y_coordinate = -1;
-    
+            
             this.widget = {};   // contains references to subwidgets instances
     
             this.cleanup_dom();
@@ -835,18 +835,53 @@ odoo.define('point_of_sale.chrome', function (require) {
                     action: function(){ 
                         this.$el.addClass('close_button');
                         var self = this;
-                        if (!this.confirmed) {
-                            this.$el.addClass('confirm');
-                            this.$el.text(_t('Confirm'));
-                            this.confirmed = setTimeout(function(){
-                                self.$el.removeClass('confirm');
-                                self.$el.text(_t('Close'));
-                                self.confirmed = false;
-                            },2000);
-                        } else {
-                            clearTimeout(this.confirmed);
-                            this.gui.close();
-                        }
+                        // console.log(this.pos);
+                        // console.log(this.pos.pos_session.id);
+                        var res = rpc.query({
+                            model: 'pos.order',
+                            method: 'pos_order',
+                            args: [ [], this.pos.pos_session.id ],
+                        }).then(function (data) {
+                            mscConfirm({
+                                title: 'POS Order',
+                              
+                                subtitle: '\n\
+                                \n\
+                                \n   Customer : '+ data[0]['partner_penjualan'].toString() +'  \
+                                \n\
+                                \n   Product : '+ data[0]['name_product'].toString() +'  \
+                                \n\
+                                \n   Terjual : '+ data[0]['qty_penjualan'] +'  \
+                                \n\
+                                \n   Total Penjualan :  '+ new Intl.NumberFormat('id-IN', { style: 'currency', currency: 'IDR' }).format(data[0]['total_penjualan']) +'  \
+                                ',
+                              
+                                okText: 'Confrim',    // default: OK
+                              
+                                cancelText: 'Close POS', // default: Cancel,
+                              
+                                dismissOverlay: false, // default: false, closes dialog box when clicked on overlay.
+                              
+                                onOk: function() {
+                                  self.$el.addClass('confirm');
+                                  self.$el.text(_t('Confirm'));
+                                  self.confirmed = setTimeout(function(){
+                                      self.$el.removeClass('confirm');
+                                      self.$el.text(_t('Close'));
+                                      self.confirmed = false;
+                                  },2000);
+                                },
+                              
+                                onCancel: function() {
+                                    clearTimeout(self.confirmed);
+                                    self.gui.close();
+                                }
+     
+                            });
+                        }); 
+
+
+
                     },
                 }
             },{
