@@ -50,10 +50,14 @@ class POSSession(models.Model):
     
 
     cbo_ids = fields.Many2many('cash.box.out', compute='compute_cbo_ids', string="Cash In/Out")
+    cbo_id = fields.One2many('cash.box.out', 'ps_id', string='Cash In/Out')
+
+
 
     def compute_cbo_ids(self):
         try:
             self.cbo_ids = self.env['cash.box.out'].search([('ps_id','=',self.id)]).ids
+            # self.cbo_id = self.cbo_ids.ids
         except:
             pass
 

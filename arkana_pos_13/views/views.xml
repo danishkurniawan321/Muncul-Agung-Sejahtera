@@ -165,9 +165,25 @@
                                     <field name="cash_register_difference" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-danger="cash_register_difference != 0"/>
                                 </group>
                             </div>
-
+<!-- 
                             <field name="cbo_ids" string="Cash In/Out">
-                                <tree>
+                                <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>
+                                </tree>
+                            </field> -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2>
+                                        Cash In/Out
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <field name="cbo_id" string="Cash In/Out">
+                                <tree editable="bottom" create="0">
                                 <field name="name"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>
