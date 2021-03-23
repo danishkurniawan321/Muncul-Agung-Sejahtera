@@ -1,27 +1,5 @@
 <odoo>
   <data>
-    <record id="stock.view_move_line_tree" model="ir.ui.view">
-        <field name="name">stock.move.line.tree</field>
-        <field name="model">stock.move.line</field>
-        <field name="arch" type="xml">
-            <tree decoration-muted="state == 'cancel'" decoration-danger="(state not in ('cancel','done'))" string="Move Lines" create="0" default_order="date">
-                <field name="date"/>
-                <field name="reference" string="Reference"
-                       invisible="context.get('no_reference', False)"/>
-                <field name="product_id"/>
-                <field name="lot_id" groups="stock.group_production_lot"/>
-                <field name="location_id"/>
-                <field name="location_dest_id"/>
-                <field name="before_price" string="Price Before"/>
-                <field name="lst_price" string="Price Now"/>
-                <!-- <field name="difference_price" string="Difference Price"/> -->
-                <field name="qty_done" string="Quantity Done"/>
-                <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
-                <field name="state"/>
-                <field name="company_id" groups="base.group_multi_company" force_save="1"/>
-            </tree>
-        </field>
-    </record>
 
     <record id="stock.stock_inventory_line_tree2" model="ir.ui.view">
         <field name="name">stock.inventory.line.tree2</field>
@@ -32,6 +10,7 @@
                   decoration-muted="product_qty == theoretical_qty"
                   decoration-bf="is_editable">
                 <field name="company_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
                 <field name="product_tracking" invisible="1"/>
                 <field name="is_editable" invisible="1"/>
                 <field name="outdated" invisible="1"/>
@@ -63,12 +42,6 @@
                        attrs="{'readonly': ['|',
                             ('is_editable', '=', False),
                             ('state', '!=', 'confirm')]}"/>
-                <field name="before_price" string="Price Before" width="0.5"
-                       force_save="1" readonly="1" optional="show" widget="monetary"/>
-                <field name="lst_price" string="Price Now" width="0.5"
-                       attrs="{'readonly': [('state', '!=', 'confirm')]}" widget="monetary"/>
-                <field name="difference_price" string="Difference Price" width="0.5"
-                       force_save="1" readonly="1" optional="show" widget="monetary"/>
                 <field name="theoretical_qty" string="On Hand" width="0.5"
                        force_save="1" readonly="1" optional="show"/>
                 <button name="action_refresh_quantity" string="Refresh quantity" title="Refresh quantity"
@@ -81,6 +54,10 @@
                        width="0.3" force_save="1"/>
                 <field name="inventory_id" invisible="1"/>
                 <field name="state" invisible="1"/>
+                <field name="lst_price" string="Unit Cost Price" width="0.5"
+                       force_save="1" readonly="1" optional="show" widget="monetary"/>
+                <field name="difference_price" string="Price Difference" width="0.5"
+                       force_save="1" readonly="1" optional="show" widget="monetary"/>
             </tree>
         </field>
     </record>

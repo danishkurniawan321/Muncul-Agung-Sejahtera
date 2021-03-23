@@ -21,12 +21,13 @@ class stockMoveLine(models.Model):
 class stockInventoryLine(models.Model):
     _inherit = 'stock.inventory.line'
 
-    before_price =  fields.Float(string='Sales Price Before', related='product_id.list_price')
-    lst_price =  fields.Float(string='Sales Price Now')
-    difference_price =  fields.Float(string='Difference Price' , compute='_difference_price')
+    lst_price =  fields.Float(string='Unit Cost Price', related='product_id.lst_price')
+    difference_price =  fields.Float(string='Price Difference')
+    currency_id = fields.Many2one('res.currency',string='Currency', related='company_id.currency_id')
 
-    def _difference_price(self):
-        self.difference_price = self.lst_price - self.before_price
+    @api.onchange('difference_qty')
+    def onchange_difference_price(self):
+        self.difference_price = self.difference_qty * self.lst_price
 
 class stockInventory(models.Model):
     _inherit = 'stock.inventory'
