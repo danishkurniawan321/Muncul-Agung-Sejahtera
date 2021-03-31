@@ -27,6 +27,11 @@ class PosBox(CashBox):
         else:
             return super(PosBox, self).run()
 
+    # def unlink(self):
+    #     res = super(PosBoxOut).unlink()
+    #     self.ps_id.cash_register_total_entry_encoding =  self.ps_id.cash_register_total_entry_encoding - self.amount
+    #     return res
+
 
 class PosBoxOut(PosBox):
     _inherit = 'cash.box.out'
@@ -43,21 +48,49 @@ class PosBoxOut(PosBox):
             values['ref'] = self.env[active_model].browse(active_ids)[0].name
         return values
 
-
-
 class POSSession(models.Model):
     _inherit = 'pos.session'
     
 
-    cbo_ids = fields.Many2many('cash.box.out', compute='compute_cbo_ids', string="Cash In/Out")
+    cbo_ids = fields.Many2many('cash.box.out', compute='compute_cbo_ids', string="Cashs In/Out")
     cbo_id = fields.One2many('cash.box.out', 'ps_id', string='Cash In/Out')
+
+
+    @api.onchange('cbo_ids')
+    def onchange_cbo_ids(self):
+        print(self.cash_register_total_entry_encoding)
+        print(self.cbo_ids)
+
+
+
+    @api.depends('payment_method_ids', 'order_ids', 'cash_register_balance_start', 'cash_register_id')
+    def _compute_cash_balance(self):
+        for session in self:
+            cash_payment_method = session.payment_method_ids.filtered('is_cash_count')[:1]
+            if cash_payment_method:
+                total_cash_payment = sum(session.order_ids.mapped('payment_ids').filtered(lambda payment: payment.payment_method_id == cash_payment_method).mapped('amount'))
+                # session.cash_register_total_entry_encoding = session.cash_register_id.total_entry_encoding + (
+                #     0.0 if session.state == 'closed' else total_cash_payment
+                # )
+                total_amount = 0 
+                for i in self.cbo_ids:
+                    total_amount += i.amount
+                session.cash_register_total_entry_encoding = total_amount
+                # session.cash_register_total_entry_encoding = session.cash_register_id.total_entry_encoding + (total_amount if session.state == 'closed' else total_cash_payment)
+                session.cash_register_balance_end = session.cash_register_balance_start + session.cash_register_total_entry_encoding
+                session.cash_register_difference = session.cash_register_balance_end_real - session.cash_register_balance_end
+
 
 
 
     def compute_cbo_ids(self):
         try:
             self.cbo_ids = self.env['cash.box.out'].search([('ps_id','=',self.id)]).ids
-            # self.cbo_id = self.cbo_ids.ids
+            
+            # total_amount = 0 
+            # for i in self.cbo_ids:
+            #     total_amount += i.amount
+            # self.cash_register_total_entry_encoding = total_amount
         except:
             pass
 
