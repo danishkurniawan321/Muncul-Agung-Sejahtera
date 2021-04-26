@@ -26,6 +26,8 @@
     'data': [
         # 'security/ir.model.access.csv',
         'reports/report.xml',
+        'reports/report_stockpicking_operations.xml',
+        'reports/report_deliveryslip.xml',
     ],
     # only loaded in demonstration mode
     "sequence": 0,
