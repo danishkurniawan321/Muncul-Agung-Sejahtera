@@ -123,3 +123,10 @@ class POSOrder(models.Model):
         data[0]['name_product'] = name_product
         
         return data
+
+    @api.model
+    def _process_order(self, order, draft, existing_order):
+        if 'to_invoice' in order and 'data' in order :
+            order['data']['to_invoice'] = order['to_invoice']
+        res = super(POSOrder, self)._process_order(order, draft, existing_order)
+        return res
