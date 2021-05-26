@@ -2,3 +2,4 @@
 
 from . import models
 from . import account_move
+from . import pos_session
