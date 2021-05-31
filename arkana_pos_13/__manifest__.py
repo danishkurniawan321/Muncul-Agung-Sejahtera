@@ -31,7 +31,10 @@
     ],
     # only loaded in demonstration mode
     'qweb': [
-        'static/src/xml/*.xml',
+        'static/src/xml/invoice.xml',
+        'static/src/xml/logo.xml',
+        'static/src/xml/Numpad.xml',
+        'static/src/xml/receipt.xml',
     ],
     "sequence": 0,
     "application": True,
