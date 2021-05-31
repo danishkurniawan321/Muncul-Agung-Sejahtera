@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <button name="action_post" position="attributes">
-                <attribute name="context">{'force_post_test':True}</attribute>
+                <attribute name="context">{'force_post':True}</attribute>
             </button>
         </field>
     </record>

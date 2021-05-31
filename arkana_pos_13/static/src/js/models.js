@@ -1653,7 +1653,7 @@ odoo.define('point_of_sale.models', function (require) {
                 price_lst:          this.get_lst_price(),
                 display_discount_policy:    this.display_discount_policy(),
                 price_display_one:  this.get_display_price_one(),
-                price_display :     this.get_display_price(),
+                price_display :     20,//this.get_display_price(),
                 price_with_tax :    this.get_price_with_tax(),
                 price_without_tax:  this.get_price_without_tax(),
                 price_with_tax_before_discount:  this.get_price_with_tax_before_discount(),
