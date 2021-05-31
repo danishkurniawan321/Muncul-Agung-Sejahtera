@@ -6,10 +6,10 @@
                 <script type="text/javascript" src="/arkana_pos_13/static/src/js/msc-script.js"></script>
                 <link rel="stylesheet" href="/arkana_pos_13/static/src/css/msc-style.css"/>
             </xpath>
-<!--            <xpath expr="//script[@src='/point_of_sale/static/src/js/models.js']" position="replace">-->
-<!--                <script type="text/javascript" src="/arkana_pos_13/static/src/js/models.js"></script>-->
+            <xpath expr="//script[@src='/point_of_sale/static/src/js/models.js']" position="replace">
+                <script type="text/javascript" src="/arkana_pos_13/static/src/js/models.js"></script>
 <!--                <script type="text/javascript" src="/arkana_pos_13/static/src/js/invoice.js"></script>-->
-<!--            </xpath>-->
+            </xpath>
             <xpath expr="//script[@src='/point_of_sale/static/src/js/screens.js']" position="replace">
                 <script type="text/javascript" src="/arkana_pos_13/static/src/js/screens.js"></script>
             </xpath>
