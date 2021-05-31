@@ -1,14 +1,14 @@
 odoo.define('point_of_sale.InvoiceButton', function (require) {
     'use strict';
 
-    const { useListener } = require('web.custom_hooks');
-    const { useContext } = owl.hooks;
-    const { isRpcError } = require('point_of_sale.utils');
-    const PosComponent = require('point_of_sale.PosComponent');
-    const OrderManagementScreen = require('point_of_sale.OrderManagementScreen');
-    const OrderFetcher = require('point_of_sale.OrderFetcher');
-    const Registries = require('point_of_sale.Registries');
-    const contexts = require('point_of_sale.PosContext');
+//    const { useListener } = require('web.custom_hooks');
+//    const { useContext } = owl.hooks;
+//    const { isRpcError } = require('point_of_sale.utils');
+//    const PosComponent = require('point_of_sale.PosComponent');
+//    const OrderManagementScreen = require('point_of_sale.OrderManagementScreen');
+//    const OrderFetcher = require('point_of_sale.OrderFetcher');
+//    const Registries = require('point_of_sale.Registries');
+//    const contexts = require('point_of_sale.PosContext');
 
     class InvoiceButton extends PosComponent {
         constructor() {
