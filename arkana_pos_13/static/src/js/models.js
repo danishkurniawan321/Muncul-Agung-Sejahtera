@@ -2796,7 +2796,7 @@ odoo.define('point_of_sale.models', function (require) {
         /* ---- Payment Status --- */
         get_subtotal : function(){
             return round_pr(this.orderlines.reduce((function(sum, orderLine){
-                return sum + orderLine.get_display_price();
+                return sum + 1;//orderLine.get_display_price();
             }), 0), this.pos.currency.rounding);
         },
         get_total_with_tax: function() {
