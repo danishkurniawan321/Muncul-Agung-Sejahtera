@@ -106,14 +106,3 @@ class AccountMove(models.Model):
                     move.invoice_payment_state = 'paid'
             else:
                 move.invoice_payment_state = 'not_paid'
-
-    # def post(self):
-    #     moves = self.env['account.move']
-    #     if not self._context.get('force_post'):
-    #         for rec in self :
-    #             order_id = self.env['pos.order'].search([
-    #                 ('account_move','=',rec.id),
-    #             ])
-    #             if order_id :
-    #                 moves += rec
-    #     return super(AccountMove, self-moves).post()

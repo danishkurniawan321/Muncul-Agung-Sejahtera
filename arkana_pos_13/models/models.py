@@ -27,11 +27,6 @@ class PosBox(CashBox):
         else:
             return super(PosBox, self).run()
 
-    # def unlink(self):
-    #     res = super(PosBoxOut).unlink()
-    #     self.ps_id.cash_register_total_entry_encoding =  self.ps_id.cash_register_total_entry_encoding - self.amount
-    #     return res
-
 
 class PosBoxOut(PosBox):
     _inherit = 'cash.box.out'

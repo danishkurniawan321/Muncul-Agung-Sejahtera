@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_arkana_pos_14_arkana_pos_14,arkana_pos_14.arkana_pos_14,model_arkana_pos_14_arkana_pos_14,base.group_user,1,1,1,1
