@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.addons.account.wizard.pos_box import CashBox
+from odoo.exceptions import UserError
 
 
 class POSConfig(models.Model):
@@ -36,7 +37,7 @@ class PosBoxOut(PosBox):
 
     def _calculate_values_for_statement_line(self, record):
         values = super(PosBoxOut, self)._calculate_values_for_statement_line(record)
-        values['ps_id'] = self.ps_id.id
+        # values['ps_id'] = self.env.context.get('active_id', False)
         active_model = self.env.context.get('active_model', False)
         active_ids = self.env.context.get('active_ids', [])
         if active_model == 'pos.session' and active_ids:
@@ -55,28 +56,6 @@ class POSSession(models.Model):
     def onchange_cbo_ids(self):
         print(self.cash_register_total_entry_encoding)
         print(self.cbo_ids)
-
-
-
-    @api.depends('payment_method_ids', 'order_ids', 'cash_register_balance_start', 'cash_register_id')
-    def _compute_cash_balance(self):
-        for session in self:
-            cash_payment_method = session.payment_method_ids.filtered('is_cash_count')[:1]
-            if cash_payment_method:
-                total_cash_payment = sum(session.order_ids.mapped('payment_ids').filtered(lambda payment: payment.payment_method_id == cash_payment_method).mapped('amount'))
-                # session.cash_register_total_entry_encoding = session.cash_register_id.total_entry_encoding + (
-                #     0.0 if session.state == 'closed' else total_cash_payment
-                # )
-                total_amount = 0 
-                for i in self.cbo_ids:
-                    total_amount += i.amount
-                session.cash_register_total_entry_encoding = total_amount
-                # session.cash_register_total_entry_encoding = session.cash_register_id.total_entry_encoding + (total_amount if session.state == 'closed' else total_cash_payment)
-                session.cash_register_balance_end = session.cash_register_balance_start + session.cash_register_total_entry_encoding
-                session.cash_register_difference = session.cash_register_balance_end_real - session.cash_register_balance_end
-
-
-
 
     def compute_cbo_ids(self):
         try:
