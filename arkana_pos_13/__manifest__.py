@@ -24,13 +24,16 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/views.xml',
-        # 'views/templates.xml',
+        'views/pos_order_views.xml',
+        'views/account_move_views.xml',
     ],
     # only loaded in demonstration mode
     'qweb': [
-        'static/src/xml/*.xml',
+        'static/src/xml/invoice.xml',
+        'static/src/xml/logo.xml',
+        'static/src/xml/Numpad.xml',
+        'static/src/xml/receipt.xml',
     ],
     "sequence": 0,
     "application": True,
