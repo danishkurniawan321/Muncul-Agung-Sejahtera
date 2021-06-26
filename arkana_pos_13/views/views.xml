@@ -185,9 +185,16 @@
                                 </div>
                             </div>
 
-                            <field name="cbo_id" string="Cash In/Out">
+<!--                            <field name="cbo_id" string="Cash In/Out">-->
+<!--                                <tree editable="bottom" create="0">-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="currency_id" invisible="1"/>-->
+<!--                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+                            <field name="statement_line_ids" string="Cash In/Out" attrs="{'readonly': [('state','not in',['opened'])]}">
                                 <tree editable="bottom" create="0">
-                                <field name="name"/>
+                                <field name="name" string="Reason"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>
                                 </tree>
