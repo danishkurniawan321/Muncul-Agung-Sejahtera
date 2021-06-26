@@ -76,7 +76,6 @@ class POSSession(models.Model):
         if 'statement_line_ids' in vals:
             all_statement_line_ids = self.mapped('statement_ids.line_ids.id')
             for data in vals['statement_line_ids']:
-                print('\n data',data)
                 if data[0] == 6 :
                     existing_statement_line_ids = data[2]
                     statement_line_ids = self.env['account.bank.statement.line'].search([
