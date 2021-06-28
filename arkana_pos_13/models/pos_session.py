@@ -108,10 +108,6 @@ class PosSession(models.Model):
 
         MoveLine = self.env['account.move.line'].with_context(check_move_validity=False)
 
-        print('\n invoice_receivables',invoice_receivables)
-        for partner, amounts in invoice_receivables.items():
-            commercial_partner = partner.commercial_partner_id
-        jirehgre
         data.update({
             'taxes':                               taxes,
             'sales':                               sales,
