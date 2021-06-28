@@ -107,7 +107,7 @@ class PosSession(models.Model):
                 partners._increase_rank('customer_rank')
 
         MoveLine = self.env['account.move.line'].with_context(check_move_validity=False)
-
+        #
         data.update({
             'taxes':                               taxes,
             'sales':                               sales,
