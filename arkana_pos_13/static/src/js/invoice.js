@@ -98,7 +98,7 @@ odoo.define('point_of_sale.InvoiceButton', function (require) {
                 await this.rpc({
                     model: 'pos.order',
                     method: 'write',
-                    args: [[orderId], { partner_id: newClient }],
+                    args: [[orderId], { partner_id: newClient.id }],
                     kwargs: { context: this.env.session.user_context },
                 });
             }

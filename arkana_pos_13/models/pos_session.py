@@ -48,7 +48,7 @@ class PosSession(models.Model):
 
             if order.is_invoiced:
                 # Combine invoice receivable lines
-                key = order.partner_id.property_account_receivable_id.id
+                key = order.partner_id
                 invoice_receivables[key] = self._update_amounts(invoice_receivables[key], {'amount': order._get_amount_receivable()}, order.date_order)
                 # side loop to gather receivable lines by account for reconciliation
                 for move_line in order.account_move.line_ids.filtered(lambda aml: aml.account_id.internal_type == 'receivable' and not aml.reconciled):
@@ -108,6 +108,10 @@ class PosSession(models.Model):
 
         MoveLine = self.env['account.move.line'].with_context(check_move_validity=False)
 
+        print('\n invoice_receivables',invoice_receivables)
+        for partner, amounts in invoice_receivables.items():
+            commercial_partner = partner.commercial_partner_id
+        jirehgre
         data.update({
             'taxes':                               taxes,
             'sales':                               sales,
