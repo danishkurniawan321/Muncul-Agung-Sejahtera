@@ -83,7 +83,21 @@ class POSSession(models.Model):
                         ('id','not in',existing_statement_line_ids),
                     ])
                     statement_line_ids.unlink()
-        return super().write(vals)
+        return super(POSSession, self).write(vals)
+
+    def _reconcile_account_move_lines(self, data):
+        # jangan reconcile account move line dari invoice
+        final_order_account_move_receivable_lines = {}
+        order_account_move_receivable_lines = data.get('order_account_move_receivable_lines', {})
+        data['order_account_move_receivable_lines'] = {}
+        for id, move_lines in order_account_move_receivable_lines.items():
+            final_move_lines = self.env['account.move.line']
+            for line in move_lines :
+                if line.move_id.type != 'out_invoice':
+                    final_move_lines += line
+            if final_move_lines :
+                data['order_account_move_receivable_lines'][id] = final_order_account_move_receivable_lines
+        return super(POSSession, self)._reconcile_account_move_lines(data)
 
 class POSOrder(models.Model):
     _inherit = 'pos.order'
