@@ -46,11 +46,15 @@ class PosBoxOut(PosBox):
 
 class POSSession(models.Model):
     _inherit = 'pos.session'
-    
+
+    @api.depends('statement_ids.line_ids')
+    def _compute_statement_line(self):
+        for rec in self :
+            rec.statement_line_ids = rec.mapped('statement_ids.line_ids')
 
     cbo_ids = fields.Many2many('cash.box.out', compute='compute_cbo_ids', string="Cashs In/Out")
     cbo_id = fields.One2many('cash.box.out', 'ps_id', string='Cash In/Out')
-
+    statement_line_ids = fields.Many2many('account.bank.statement.line', compute='_compute_statement_line', string="Cashs In/Out", inverse=lambda self: self)
 
     @api.onchange('cbo_ids')
     def onchange_cbo_ids(self):
@@ -60,13 +64,40 @@ class POSSession(models.Model):
     def compute_cbo_ids(self):
         try:
             self.cbo_ids = self.env['cash.box.out'].search([('ps_id','=',self.id)]).ids
-            
-            # total_amount = 0 
+
+            # total_amount = 0
             # for i in self.cbo_ids:
             #     total_amount += i.amount
             # self.cash_register_total_entry_encoding = total_amount
         except:
             pass
+
+    def write(self, vals):
+        if 'statement_line_ids' in vals:
+            all_statement_line_ids = self.mapped('statement_ids.line_ids.id')
+            for data in vals['statement_line_ids']:
+                if data[0] == 6 :
+                    existing_statement_line_ids = data[2]
+                    statement_line_ids = self.env['account.bank.statement.line'].search([
+                        ('id','in',all_statement_line_ids),
+                        ('id','not in',existing_statement_line_ids),
+                    ])
+                    statement_line_ids.unlink()
+        return super(POSSession, self).write(vals)
+
+    def _reconcile_account_move_lines(self, data):
+        # jangan reconcile account move line dari invoice
+        final_order_account_move_receivable_lines = {}
+        order_account_move_receivable_lines = data.get('order_account_move_receivable_lines', {})
+        data['order_account_move_receivable_lines'] = {}
+        for id, move_lines in order_account_move_receivable_lines.items():
+            final_move_lines = self.env['account.move.line']
+            for line in move_lines :
+                if line.move_id.type != 'out_invoice':
+                    final_move_lines += line
+            if final_move_lines :
+                data['order_account_move_receivable_lines'][id] = final_order_account_move_receivable_lines
+        return super(POSSession, self)._reconcile_account_move_lines(data)
 
 class POSOrder(models.Model):
     _inherit = 'pos.order'
